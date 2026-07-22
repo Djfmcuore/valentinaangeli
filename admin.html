@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Gestione foto — area riservata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body { background: var(--cream); }
+  .admin-wrap { max-width: 760px; margin: 0 auto; padding: 60px 24px 100px; }
+  .admin-card { background: var(--white); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-soft); margin-bottom: 28px; }
+  .admin-card h2 { font-size: 1.3rem; margin-bottom: 8px; }
+  .admin-card p.hint { color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 20px; }
+  .admin-card input[type="password"], .admin-card input[type="text"], .admin-card input[type="file"] {
+    width: 100%; padding: 12px 16px; border-radius: 12px; border: 1.5px solid var(--cream-deep);
+    background: var(--cream); font-family: var(--font-body); margin-bottom: 12px;
+  }
+  .status { font-size: 0.9rem; padding: 10px 14px; border-radius: 10px; margin-top: 12px; display:none; }
+  .status.ok { background: rgba(146,168,126,0.2); color: var(--sage-deep); display:block; }
+  .status.err { background: rgba(232,153,141,0.25); color: var(--clay-deep); display:block; }
+  .status.loading { background: var(--cream-deep); color: var(--ink-soft); display:block; }
+  .photo-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; margin-top: 16px; }
+  .photo-item { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 1; background: var(--cream-deep); }
+  .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-item button {
+    position: absolute; top: 6px; right: 6px; background: rgba(58,50,43,0.75); color: white;
+    border: none; border-radius: 8px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer;
+  }
+  .locked { opacity: 0.5; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<div class="admin-wrap">
+  <p class="eyebrow" style="margin-bottom:8px;">Area riservata</p>
+  <h1 style="font-family:var(--font-display); font-size:2rem; margin-bottom:32px;">Gestione foto dello studio</h1>
+
+  <div class="admin-card">
+    <h2>1. Accedi con il tuo token GitHub</h2>
+    <p class="hint">Il token non viene salvato da nessuna parte: resta solo nella memoria di questa scheda del browser finché non la chiudi.</p>
+    <input type="password" id="token-input" placeholder="Incolla qui il tuo Personal Access Token">
+    <button class="btn btn-primary" id="connect-btn">Connetti</button>
+    <div class="status" id="auth-status"></div>
+  </div>
+
+  <div class="admin-card locked" id="upload-card">
+    <h2>2. Carica una nuova foto</h2>
+    <p class="hint">Formati consigliati: JPG o PNG, meglio se già ridimensionate (max ~2000px di lato) per non appesantire il sito.</p>
+    <input type="file" id="file-input" accept="image/*">
+    <input type="text" id="caption-input" placeholder="Didascalia (facoltativa)">
+    <button class="btn btn-primary" id="upload-btn">Carica foto</button>
+    <div class="status" id="upload-status"></div>
+  </div>
+
+  <div class="admin-card locked" id="list-card">
+    <h2>3. Foto attualmente online</h2>
+    <p class="hint">Clicca "Elimina" per rimuovere una foto dal sito.</p>
+    <div class="photo-list" id="photo-list"></div>
+    <div class="status" id="list-status"></div>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
